@@ -33,6 +33,11 @@ static void process_arguments(int argc, char *argv[])
             bw.print_info = true;
             argv[i] = "";
             break;
+        } else if (strcmp(argv[i], "--bw-command") == 0) {
+            bw.command = argv[i + 1];
+            argv[i] = "";
+            argv[i + 1] = "";
+            break;
         }
     }
 }
@@ -81,9 +86,13 @@ static void init_bk(int argc, char *argv[])
 
 static void run_application()
 {
+    if (bw.command == NULL) {
+        bw.command = bw.trailer.default_command;
+    }
+
     bw_debug("Running %s...", bw.app_path);
     update_environment(bw.argc, bw.argv);
-    execl(bw.app_path, bw.app_path, NULL);
+    execl(bw.app_path, bw.app_path, bw.command, NULL);
     bw_fatal("Failed to start application '%s'", bw.app_path);
 }
 

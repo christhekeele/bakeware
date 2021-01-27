@@ -46,6 +46,8 @@ struct bakeware_trailer
 
     uint8_t sha1[20];
     char sha1_ascii[41];
+
+    char default_command[12];
 };
 
 #define BAKEWARE_COMPRESSION_NONE 0
@@ -105,6 +107,9 @@ struct bakeware
 
     // Application invocation
     char app_path[256 + 128];
+
+    // Mix Release command
+    char *command;
 };
 
 #endif
